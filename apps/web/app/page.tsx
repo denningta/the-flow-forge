@@ -1,19 +1,75 @@
-import { Button } from "@workspace/ui/components/button"
+import { Assessment } from "@/components/sections/assessment"
+import { CaseStudy } from "@/components/sections/case-study"
+import { Faq } from "@/components/sections/faq"
+import { FinalCta } from "@/components/sections/final-cta"
+import { Hero } from "@/components/sections/hero"
+import { Industries } from "@/components/sections/industries"
+import { Problem } from "@/components/sections/problem"
+import { Process } from "@/components/sections/process"
+import { WhatWeDo } from "@/components/sections/what-we-do"
+import { WhyDifferent } from "@/components/sections/why-different"
+import { FAQS } from "@/lib/content"
+import { SITE } from "@/lib/site"
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "ProfessionalService",
+      "@id": `${SITE.url}#organization`,
+      name: SITE.name,
+      url: SITE.url,
+      email: SITE.email,
+      description: SITE.positioning,
+      areaServed: "US",
+      serviceType: [
+        "Manufacturing systems integration",
+        "Lean manufacturing consulting",
+        "ERP and MES integration",
+        "Daily management systems",
+      ],
+      makesOffer: {
+        "@type": "Offer",
+        name: "Factory Flow Assessment",
+        description:
+          "A fixed-fee diagnostic covering current-state process mapping, information flow analysis, bottleneck identification, and a prioritized improvement roadmap.",
+        priceSpecification: {
+          "@type": "PriceSpecification",
+          minPrice: 3000,
+          maxPrice: 5000,
+          priceCurrency: "USD",
+        },
+      },
+    },
+    {
+      "@type": "FAQPage",
+      "@id": `${SITE.url}#faq`,
+      mainEntity: FAQS.map((faq) => ({
+        "@type": "Question",
+        name: faq.question,
+        acceptedAnswer: { "@type": "Answer", text: faq.answer },
+      })),
+    },
+  ],
+}
 
 export default function Page() {
   return (
-    <div className="flex min-h-svh p-6">
-      <div className="flex max-w-md min-w-0 flex-col gap-4 text-sm leading-loose">
-        <div>
-          <h1 className="font-medium">Project ready!</h1>
-          <p>You may now add components and start building.</p>
-          <p>We&apos;ve already added the button component for you.</p>
-          <Button className="mt-2">Button</Button>
-        </div>
-        <div className="text-muted-foreground font-mono text-xs">
-          (Press <kbd>d</kbd> to toggle dark mode)
-        </div>
-      </div>
-    </div>
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <Hero />
+      <Problem />
+      <WhatWeDo />
+      <Industries />
+      <WhyDifferent />
+      <Process />
+      <Assessment />
+      <CaseStudy />
+      <Faq />
+      <FinalCta />
+    </>
   )
 }
