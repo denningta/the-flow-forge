@@ -56,6 +56,7 @@ function SiteHeader({ settings }: { settings: SiteSettings }) {
               href={settings.schedulingUrl}
               className="hidden h-9 min-h-0 px-4 py-0 text-sm whitespace-nowrap lg:inline-flex"
               showArrow={false}
+              location="header-desktop"
             >
               {settings.ctaLabelShort}
             </CtaButton>
@@ -99,6 +100,7 @@ function SiteHeader({ settings }: { settings: SiteSettings }) {
                   <CtaButton
                     href={settings.schedulingUrl}
                     className="w-full"
+                    location="header-mobile"
                   >
                     {settings.ctaLabelShort}
                   </CtaButton>

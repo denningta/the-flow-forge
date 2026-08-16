@@ -52,6 +52,7 @@ function Hero({ data, cta }: { data: HeroContent; cta: CtaSettings }) {
               <CtaButton
                 href={cta.schedulingUrl}
                 className="w-full sm:w-auto"
+                location="hero"
               >
                 {cta.ctaLabel}
               </CtaButton>

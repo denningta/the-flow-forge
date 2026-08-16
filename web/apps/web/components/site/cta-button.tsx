@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import { track } from "@vercel/analytics"
 import { ArrowRight } from "lucide-react"
 import { stegaClean } from "next-sanity"
 
@@ -31,12 +32,20 @@ function calLinkFrom(href: string): string | null {
  * anchor's native navigation. Skip that for modifier-key/middle clicks so
  * cmd/ctrl/shift-click and middle-click still open `href` in a new tab as
  * users expect.
+ *
+ * Fires unconditionally (before the modifier-key check) so the "cta_click"
+ * conversion event is recorded for every real click, including the ones
+ * that fall through to native new-tab behavior.
  */
-function handleCalClick(event: React.MouseEvent<HTMLAnchorElement>) {
-  if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) {
-    return
+function makeCalClickHandler(location: string | undefined, calLink: string | null) {
+  return function handleCalClick(event: React.MouseEvent<HTMLAnchorElement>) {
+    track("cta_click", { location: location ?? "unknown", calLink: calLink ?? "" })
+
+    if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) {
+      return
+    }
+    event.preventDefault()
   }
-  event.preventDefault()
 }
 
 /**
@@ -51,12 +60,15 @@ function CtaButton({
   variant = "default",
   className,
   showArrow = true,
+  location,
 }: {
   href: string
   children: React.ReactNode
   variant?: "default" | "outline" | "secondary" | "ghost"
   className?: string
   showArrow?: boolean
+  /** Where on the site this button renders, e.g. "hero" — recorded on the "cta_click" analytics event so conversions can be broken down by section. */
+  location?: string
 }) {
   // stegaClean: in draft mode the raw string carries invisible Visual
   // Editing characters, which would corrupt the URL.
@@ -77,10 +89,17 @@ function CtaButton({
             href={cleanHref}
             data-cal-link={calLink}
             data-cal-config={JSON.stringify({ layout: "month_view" })}
-            onClick={handleCalClick}
+            onClick={makeCalClickHandler(location, calLink)}
           />
         ) : (
-          <a href={cleanHref} target="_blank" rel="noreferrer noopener" />
+          <a
+            href={cleanHref}
+            target="_blank"
+            rel="noreferrer noopener"
+            onClick={() =>
+              track("cta_click", { location: location ?? "unknown", calLink: "" })
+            }
+          />
         )
       }
       className={cn(

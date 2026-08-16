@@ -46,7 +46,9 @@ function FinalCta({
         )}
         <div className="flex flex-col items-center gap-4">
           {cta.schedulingUrl && (
-            <CtaButton href={cta.schedulingUrl}>{cta.ctaLabel}</CtaButton>
+            <CtaButton href={cta.schedulingUrl} location="final-cta">
+              {cta.ctaLabel}
+            </CtaButton>
           )}
           {cleanEmail && (
             <p className="text-sm text-muted-foreground">

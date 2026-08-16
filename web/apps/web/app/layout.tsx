@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next"
+import { Analytics } from "@vercel/analytics/next"
 import { Archivo, Geist, Geist_Mono } from "next/font/google"
 import { draftMode } from "next/headers"
 import { VisualEditing } from "next-sanity/visual-editing"
@@ -117,6 +118,7 @@ export default async function RootLayout({
         </ThemeProvider>
         <SanityLive action={revalidateAndRefresh} />
         <CalEmbed />
+        <Analytics />
         {isDraftMode && (
           <>
             <DisableDraftMode />

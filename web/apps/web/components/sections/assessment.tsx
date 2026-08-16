@@ -81,7 +81,11 @@ function Assessment({
               </p>
             )}
             {cta.schedulingUrl && (
-              <CtaButton href={cta.schedulingUrl} className="w-full">
+              <CtaButton
+                href={cta.schedulingUrl}
+                className="w-full"
+                location="assessment"
+              >
                 {cta.ctaLabel}
               </CtaButton>
             )}
