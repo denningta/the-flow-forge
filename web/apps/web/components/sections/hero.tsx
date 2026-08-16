@@ -37,9 +37,9 @@ function Hero({ data, cta }: { data: HeroContent; cta: CtaSettings }) {
           )}
 
           <h1 className="font-heading text-4xl leading-[1.05] font-bold tracking-tight text-balance sm:text-5xl lg:text-6xl">
-            {data.headline}{" "}
+            <div>{data.headline}</div>
             {data.headlineAccent && (
-              <span className="text-brand-ink">{data.headlineAccent}</span>
+              <div className="text-brand-ink">{data.headlineAccent}</div>
             )}
           </h1>
 
