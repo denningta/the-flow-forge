@@ -62,7 +62,7 @@
   --card-foreground: oklch(0.22 0.008 95);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.22 0.008 95);
-  --primary: oklch(0.8 0.165 82);
+  --primary: oklch(0.68 0.1405 254.65);
   --primary-foreground: oklch(0.22 0.035 82);
   --secondary: oklch(0.955 0.005 95);
   --secondary-foreground: oklch(0.26 0.008 95);
@@ -73,8 +73,8 @@
   --destructive: oklch(0.577 0.245 27.325);
   --border: oklch(0.905 0.005 95);
   --input: oklch(0.905 0.005 95);
-  --ring: oklch(0.72 0.15 82);
-  --brand-ink: oklch(0.52 0.13 62);
+  --ring: oklch(0.68 0.1405 254.65);
+  --brand-ink: oklch(0.48 0.1405 254.65);
   --surface: oklch(0.965 0.005 95);
   --surface-foreground: oklch(0.22 0.008 95);
   --chart-1: oklch(0.8 0.165 82);
@@ -100,7 +100,7 @@
   --card-foreground: oklch(0.965 0.004 95);
   --popover: oklch(0.215 0.007 95);
   --popover-foreground: oklch(0.965 0.004 95);
-  --primary: oklch(0.825 0.17 85);
+  --primary: oklch(0.58 0.1405 254.65);
   --primary-foreground: oklch(0.2 0.035 85);
   --secondary: oklch(0.275 0.008 95);
   --secondary-foreground: oklch(0.965 0.004 95);
@@ -112,7 +112,7 @@
   --border: oklch(1 0 0 / 10%);
   --input: oklch(1 0 0 / 15%);
   --ring: oklch(0.825 0.17 85);
-  --brand-ink: oklch(0.855 0.16 85);
+  --brand-ink: oklch(0.58 0.1405 254.65);
   --surface: oklch(0.195 0.007 95);
   --surface-foreground: oklch(0.965 0.004 95);
   --chart-1: oklch(0.825 0.17 85);
@@ -205,23 +205,6 @@
 /* ---------------------------------------------------------------------------
    Texture
 --------------------------------------------------------------------------- */
-
-.grid-texture {
-  background-image:
-    linear-gradient(to right, var(--border) 1px, transparent 1px),
-    linear-gradient(to bottom, var(--border) 1px, transparent 1px);
-  background-size: 56px 56px;
-  -webkit-mask-image: radial-gradient(
-    ellipse 80% 60% at 50% 0%,
-    #000 35%,
-    transparent 100%
-  );
-  mask-image: radial-gradient(
-    ellipse 80% 60% at 50% 0%,
-    #000 35%,
-    transparent 100%
-  );
-}
 
 .forge-glow {
   background: radial-gradient(

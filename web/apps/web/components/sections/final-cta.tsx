@@ -1,5 +1,6 @@
 import { stegaClean } from "next-sanity"
 
+import { CornerBrackets } from "@/components/site/corner-brackets"
 import { CtaButton } from "@/components/site/cta-button"
 import type { ClosingCtaContent, CtaSettings } from "@/lib/content-types"
 
@@ -22,12 +23,9 @@ function FinalCta({
     >
       <div
         aria-hidden
-        className="grid-texture pointer-events-none absolute inset-0"
-      />
-      <div
-        aria-hidden
         className="forge-glow pointer-events-none absolute inset-0"
       />
+      <CornerBrackets label="FIG. 02 — GET STARTED" />
 
       <div className="reveal relative mx-auto flex w-full max-w-4xl flex-col items-center gap-7 px-6 py-24 text-center sm:py-32 lg:px-8">
         <h2

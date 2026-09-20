@@ -3,6 +3,7 @@ import { stegaClean } from "next-sanity"
 
 import { Badge } from "@workspace/ui/components/badge"
 import { Button } from "@workspace/ui/components/button"
+import { CornerBrackets } from "@/components/site/corner-brackets"
 import { CtaButton } from "@/components/site/cta-button"
 import type { CtaSettings, HeroContent } from "@/lib/content-types"
 
@@ -15,12 +16,9 @@ function Hero({ data, cta }: { data: HeroContent; cta: CtaSettings }) {
     <section id="top" className="relative overflow-hidden">
       <div
         aria-hidden
-        className="grid-texture pointer-events-none absolute inset-0"
-      />
-      <div
-        aria-hidden
         className="forge-glow pointer-events-none absolute inset-0"
       />
+      <CornerBrackets label="FIG. 01 — SYSTEM OVERVIEW" />
 
       {/* Fixed right column: fr-based columns let the wrappable CTA shrink the
           text column, which pushed the headline to four lines. */}
