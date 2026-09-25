@@ -1,3 +1,5 @@
+import Image from "next/image"
+
 import { CheckIcon, ChevronRightIcon } from "lucide-react"
 import { stegaClean } from "next-sanity"
 
@@ -6,6 +8,7 @@ import { Button } from "@workspace/ui/components/button"
 import { CornerBrackets } from "@/components/site/corner-brackets"
 import { CtaButton } from "@/components/site/cta-button"
 import type { CtaSettings, HeroContent } from "@/lib/content-types"
+import { imageProps } from "@/sanity/image"
 
 function Hero({ data, cta }: { data: HeroContent; cta: CtaSettings }) {
   const secondaryHref = data.secondaryAction?.href
@@ -84,65 +87,40 @@ function Hero({ data, cta }: { data: HeroContent; cta: CtaSettings }) {
           )}
         </div>
 
-        {data.diagram && <SystemsDiagram diagram={data.diagram} />}
+        {data.photo && (
+          <HeroPhoto photo={data.photo} caption={data.photoCaption} />
+        )}
       </div>
     </section>
   )
 }
 
-/** Illustrative: disconnected systems on the left, one live picture on the right. */
-function SystemsDiagram({
-  diagram,
+function HeroPhoto({
+  photo,
+  caption,
 }: {
-  diagram: NonNullable<HeroContent["diagram"]>
+  photo: NonNullable<HeroContent["photo"]>
+  caption: HeroContent["photoCaption"]
 }) {
-  const systems = diagram.disconnectedSystems ?? []
-  const metrics = diagram.connectedMetrics ?? []
+  const image = imageProps(photo, 860)
+  if (!image) return null
 
   return (
-    <div
-      aria-hidden
-      className="relative hidden rounded-2xl bg-card/70 p-5 ring-1 ring-foreground/10 backdrop-blur-sm lg:block"
-    >
-      <div className="grid grid-cols-[1fr_auto_1.1fr] items-center gap-4">
-        <ul className="flex flex-col gap-2">
-          {systems.map((system) => (
-            <li
-              key={system}
-              className="rounded-lg border border-dashed border-border bg-background/60 px-3 py-2 font-mono text-xs text-muted-foreground"
-            >
-              {system}
-            </li>
-          ))}
-        </ul>
-
-        <div className="flex flex-col items-center gap-1 text-brand-ink">
-          <ChevronRightIcon className="size-5" />
-          <ChevronRightIcon className="size-5 opacity-60" />
-          <ChevronRightIcon className="size-5 opacity-30" />
-        </div>
-
-        <div className="flex flex-col gap-3 rounded-xl bg-background p-4 ring-1 ring-primary/30">
-          <p className="font-mono text-[0.65rem] tracking-[0.18em] text-brand-ink uppercase">
-            {diagram.connectedHeading}
-          </p>
-          <dl className="flex flex-col gap-2.5">
-            {metrics.map((metric) => (
-              <div
-                key={metric._key}
-                className="flex items-baseline justify-between gap-3 border-b border-border/60 pb-2 last:border-0 last:pb-0"
-              >
-                <dt className="text-xs text-muted-foreground">
-                  {metric.label}
-                </dt>
-                <dd className="font-heading text-sm font-semibold">
-                  {metric.value}
-                </dd>
-              </div>
-            ))}
-          </dl>
-        </div>
+    <div className="relative hidden flex-col gap-4 lg:flex">
+      <div className="overflow-hidden rounded-2xl ring-1 ring-foreground/10">
+        <Image
+          {...image}
+          alt={photo.alt ?? ""}
+          placeholder={image.blurDataURL ? "blur" : "empty"}
+          sizes="430px"
+          className="aspect-[4/5] w-full object-cover"
+        />
       </div>
+      {caption && (
+        <p className="text-center text-sm text-pretty text-muted-foreground">
+          {caption}
+        </p>
+      )}
     </div>
   )
 }

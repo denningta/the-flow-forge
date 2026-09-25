@@ -15,14 +15,6 @@
 export declare const internalGroqTypeReferenceTo: unique symbol;
 
 // Source: schema.json
-export type Diagram = {
-  disconnectedSystems?: Array<string>;
-  connectedHeading?: string;
-  connectedMetrics?: Array<{
-    _key: string;
-  } & Metric>;
-};
-
 export type PriceRange = {
   minPrice?: number;
   maxPrice?: number;
@@ -219,7 +211,15 @@ export type HeroSection = {
   lede?: string;
   secondaryAction?: NavLink;
   trustPoints?: Array<string>;
-  diagram?: Diagram;
+  photo?: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: "image";
+  };
+  photoCaption?: string;
 };
 
 export type Category = {
@@ -465,7 +465,7 @@ export type Geopoint = {
   alt?: number;
 };
 
-export type AllSanitySchemaTypes = Diagram | PriceRange | SanityImageAssetReference | Seo | NavLink | NarrativeBlock | Metric | IconLabel | IconFeature | FaqItem | BlockContent | CtaSection | FaqSection | CaseStudySection | AssessmentSection | ProcessSection | DifferentiatorsSection | IndustriesSection | CapabilitiesSection | ProblemSection | HeroSection | Category | Slug | AuthorReference | CategoryReference | Post | Author | SanityImageCrop | SanityImageHotspot | BlogPage | HomePage | SiteSettings | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageMetadata | SanityFileAsset | SanityAssetSourceData | SanityImageAsset | Geopoint;
+export type AllSanitySchemaTypes = PriceRange | SanityImageAssetReference | Seo | NavLink | NarrativeBlock | Metric | IconLabel | IconFeature | FaqItem | BlockContent | CtaSection | FaqSection | CaseStudySection | AssessmentSection | ProcessSection | DifferentiatorsSection | IndustriesSection | CapabilitiesSection | ProblemSection | HeroSection | Category | Slug | AuthorReference | CategoryReference | Post | Author | SanityImageCrop | SanityImageHotspot | BlogPage | HomePage | SiteSettings | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageMetadata | SanityFileAsset | SanityAssetSourceData | SanityImageAsset | Geopoint;
 
 // Source: ../web/apps/web/sanity/queries.ts
 // Variable: SITE_SETTINGS_QUERY
@@ -490,7 +490,7 @@ export type SITE_SETTINGS_QUERY_RESULT = {
 
 // Source: ../web/apps/web/sanity/queries.ts
 // Variable: HOME_PAGE_QUERY
-// Query: *[_type == "homePage" && _id == "homePage"][0]{    hero{      badge,      headline,      headlineAccent,      lede,      secondaryAction{ label, href },      trustPoints,      diagram{        disconnectedSystems,        connectedHeading,        connectedMetrics[]{ _key, value, label }      }    },    problem{      eyebrow,      heading,      lede,      symptoms,      diagnosis,      diagnosisAccent    },    capabilities{      eyebrow,      heading,      lede,      capabilities[]{ _key, icon, title, description }    },    industries{      eyebrow,      heading,      industries    },    differentiators{      eyebrow,      headingLines,      headingAccent,      body,      differentiators[]{ _key, icon, label }    },    process{      eyebrow,      heading,      lede,      steps[]{ _key, icon, title, description }    },    assessment{      eyebrow,      heading,      lede,      price,      priceNote,      deliverablesHeading,      deliverables,      outcomeHeading,      outcome,      commitmentHeadline,      commitmentBody,      priceRange{ minPrice, maxPrice, currency }    },    caseStudy{      eyebrow,      heading,      lede,      disclaimer,      blocks[]{ _key, label, body },      metrics[]{ _key, value, label }    },    faq{      eyebrow,      heading,      questions[]{ _key, question, answer }    },    closingCta{      headline,      headlineAccent,      body,      emailPrompt    },    seo{      metaTitle,      metaDescription,      noIndex,      ogImage{ alt, asset, "lqip": asset->metadata.lqip, "aspectRatio": asset->metadata.dimensions.aspectRatio }    }  }
+// Query: *[_type == "homePage" && _id == "homePage"][0]{    hero{      badge,      headline,      headlineAccent,      lede,      secondaryAction{ label, href },      trustPoints,      photo{ alt, asset, "lqip": asset->metadata.lqip, "aspectRatio": asset->metadata.dimensions.aspectRatio },      photoCaption    },    problem{      eyebrow,      heading,      lede,      symptoms,      diagnosis,      diagnosisAccent    },    capabilities{      eyebrow,      heading,      lede,      capabilities[]{ _key, icon, title, description }    },    industries{      eyebrow,      heading,      industries    },    differentiators{      eyebrow,      headingLines,      headingAccent,      body,      differentiators[]{ _key, icon, label }    },    process{      eyebrow,      heading,      lede,      steps[]{ _key, icon, title, description }    },    assessment{      eyebrow,      heading,      lede,      price,      priceNote,      deliverablesHeading,      deliverables,      outcomeHeading,      outcome,      commitmentHeadline,      commitmentBody,      priceRange{ minPrice, maxPrice, currency }    },    caseStudy{      eyebrow,      heading,      lede,      disclaimer,      blocks[]{ _key, label, body },      metrics[]{ _key, value, label }    },    faq{      eyebrow,      heading,      questions[]{ _key, question, answer }    },    closingCta{      headline,      headlineAccent,      body,      emailPrompt    },    seo{      metaTitle,      metaDescription,      noIndex,      ogImage{ alt, asset, "lqip": asset->metadata.lqip, "aspectRatio": asset->metadata.dimensions.aspectRatio }    }  }
 export type HOME_PAGE_QUERY_RESULT = {
   hero: {
     badge: string | null;
@@ -502,15 +502,13 @@ export type HOME_PAGE_QUERY_RESULT = {
       href: string | null;
     } | null;
     trustPoints: Array<string> | null;
-    diagram: {
-      disconnectedSystems: Array<string> | null;
-      connectedHeading: string | null;
-      connectedMetrics: Array<{
-        _key: string;
-        value: string | null;
-        label: string | null;
-      }> | null;
+    photo: {
+      alt: string | null;
+      asset: SanityImageAssetReference | null;
+      lqip: string | null;
+      aspectRatio: number | null;
     } | null;
+    photoCaption: string | null;
   } | null;
   problem: {
     eyebrow: string | null;
@@ -765,7 +763,7 @@ import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
     "\n  *[_type == \"siteSettings\" && _id == \"siteSettings\"][0]{\n    name,\n    url,\n    email,\n    tagline,\n    positioning,\n    keywords,\n    schedulingUrl,\n    ctaLabel,\n    ctaLabelShort,\n    serviceTypes,\n    navLinks[]{ _key, label, href }\n  }\n": SITE_SETTINGS_QUERY_RESULT;
-    "\n  *[_type == \"homePage\" && _id == \"homePage\"][0]{\n    hero{\n      badge,\n      headline,\n      headlineAccent,\n      lede,\n      secondaryAction{ label, href },\n      trustPoints,\n      diagram{\n        disconnectedSystems,\n        connectedHeading,\n        connectedMetrics[]{ _key, value, label }\n      }\n    },\n    problem{\n      eyebrow,\n      heading,\n      lede,\n      symptoms,\n      diagnosis,\n      diagnosisAccent\n    },\n    capabilities{\n      eyebrow,\n      heading,\n      lede,\n      capabilities[]{ _key, icon, title, description }\n    },\n    industries{\n      eyebrow,\n      heading,\n      industries\n    },\n    differentiators{\n      eyebrow,\n      headingLines,\n      headingAccent,\n      body,\n      differentiators[]{ _key, icon, label }\n    },\n    process{\n      eyebrow,\n      heading,\n      lede,\n      steps[]{ _key, icon, title, description }\n    },\n    assessment{\n      eyebrow,\n      heading,\n      lede,\n      price,\n      priceNote,\n      deliverablesHeading,\n      deliverables,\n      outcomeHeading,\n      outcome,\n      commitmentHeadline,\n      commitmentBody,\n      priceRange{ minPrice, maxPrice, currency }\n    },\n    caseStudy{\n      eyebrow,\n      heading,\n      lede,\n      disclaimer,\n      blocks[]{ _key, label, body },\n      metrics[]{ _key, value, label }\n    },\n    faq{\n      eyebrow,\n      heading,\n      questions[]{ _key, question, answer }\n    },\n    closingCta{\n      headline,\n      headlineAccent,\n      body,\n      emailPrompt\n    },\n    seo{\n      metaTitle,\n      metaDescription,\n      noIndex,\n      ogImage{ alt, asset, \"lqip\": asset->metadata.lqip, \"aspectRatio\": asset->metadata.dimensions.aspectRatio }\n    }\n  }\n": HOME_PAGE_QUERY_RESULT;
+    "\n  *[_type == \"homePage\" && _id == \"homePage\"][0]{\n    hero{\n      badge,\n      headline,\n      headlineAccent,\n      lede,\n      secondaryAction{ label, href },\n      trustPoints,\n      photo{ alt, asset, \"lqip\": asset->metadata.lqip, \"aspectRatio\": asset->metadata.dimensions.aspectRatio },\n      photoCaption\n    },\n    problem{\n      eyebrow,\n      heading,\n      lede,\n      symptoms,\n      diagnosis,\n      diagnosisAccent\n    },\n    capabilities{\n      eyebrow,\n      heading,\n      lede,\n      capabilities[]{ _key, icon, title, description }\n    },\n    industries{\n      eyebrow,\n      heading,\n      industries\n    },\n    differentiators{\n      eyebrow,\n      headingLines,\n      headingAccent,\n      body,\n      differentiators[]{ _key, icon, label }\n    },\n    process{\n      eyebrow,\n      heading,\n      lede,\n      steps[]{ _key, icon, title, description }\n    },\n    assessment{\n      eyebrow,\n      heading,\n      lede,\n      price,\n      priceNote,\n      deliverablesHeading,\n      deliverables,\n      outcomeHeading,\n      outcome,\n      commitmentHeadline,\n      commitmentBody,\n      priceRange{ minPrice, maxPrice, currency }\n    },\n    caseStudy{\n      eyebrow,\n      heading,\n      lede,\n      disclaimer,\n      blocks[]{ _key, label, body },\n      metrics[]{ _key, value, label }\n    },\n    faq{\n      eyebrow,\n      heading,\n      questions[]{ _key, question, answer }\n    },\n    closingCta{\n      headline,\n      headlineAccent,\n      body,\n      emailPrompt\n    },\n    seo{\n      metaTitle,\n      metaDescription,\n      noIndex,\n      ogImage{ alt, asset, \"lqip\": asset->metadata.lqip, \"aspectRatio\": asset->metadata.dimensions.aspectRatio }\n    }\n  }\n": HOME_PAGE_QUERY_RESULT;
     "\n  *[_type == \"blogPage\" && _id == \"blogPage\"][0]{\n    eyebrow,\n    heading,\n    lede,\n    emptyStateMessage,\n    seo{\n      metaTitle,\n      metaDescription,\n      noIndex,\n      ogImage{ alt, asset, \"lqip\": asset->metadata.lqip, \"aspectRatio\": asset->metadata.dimensions.aspectRatio }\n    }\n  }\n": BLOG_PAGE_QUERY_RESULT;
     "\n  *[_type == \"post\" && defined(slug.current) && publishedAt <= now()]\n    | order(publishedAt desc){\n      _id,\n      title,\n      \"slug\": slug.current,\n      excerpt,\n      publishedAt,\n      coverImage{ alt, asset, \"lqip\": asset->metadata.lqip, \"aspectRatio\": asset->metadata.dimensions.aspectRatio },\n      author->{ name, role },\n      categories[]->{ _id, title, \"slug\": slug.current }\n    }\n": POSTS_INDEX_QUERY_RESULT;
     "\n  *[_type == \"post\" && slug.current == $slug][0]{\n    _id,\n    title,\n    \"slug\": slug.current,\n    excerpt,\n    publishedAt,\n    coverImage{ alt, asset, \"lqip\": asset->metadata.lqip, \"aspectRatio\": asset->metadata.dimensions.aspectRatio },\n    body[]{\n      ...,\n      _type == \"contentImage\" => {\n        alt,\n        caption,\n        asset,\n        \"lqip\": asset->metadata.lqip,\n        \"aspectRatio\": asset->metadata.dimensions.aspectRatio\n      },\n      markDefs[]{ ..., _type == \"link\" => { href } }\n    },\n    author->{ name, role, image{ alt, asset, \"lqip\": asset->metadata.lqip, \"aspectRatio\": asset->metadata.dimensions.aspectRatio } },\n    categories[]->{ _id, title, \"slug\": slug.current },\n    seo{\n      metaTitle,\n      metaDescription,\n      noIndex,\n      ogImage{ alt, asset, \"lqip\": asset->metadata.lqip, \"aspectRatio\": asset->metadata.dimensions.aspectRatio }\n    }\n  }\n": POST_DETAIL_QUERY_RESULT;

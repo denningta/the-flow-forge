@@ -8,7 +8,7 @@ export const heroSection = defineType({
   icon: RocketIcon,
   groups: [
     {name: 'copy', title: 'Copy', default: true},
-    {name: 'diagram', title: 'Systems diagram'},
+    {name: 'photo', title: 'Photo'},
   ],
   fields: [
     defineField({
@@ -56,31 +56,27 @@ export const heroSection = defineType({
       validation: (rule) => rule.max(4).warning('More than four wraps awkwardly on desktop.'),
     }),
     defineField({
-      name: 'diagram',
-      title: 'Systems diagram',
-      type: 'object',
-      description: 'The decorative before/after illustration beside the headline.',
-      group: 'diagram',
+      name: 'photo',
+      title: 'Photo',
+      type: 'image',
+      description: 'Portrait shown beside the headline.',
+      group: 'photo',
+      options: {hotspot: true},
       fields: [
         defineField({
-          name: 'disconnectedSystems',
-          title: 'Disconnected systems',
-          type: 'array',
-          of: [defineArrayMember({type: 'string'})],
-          description: 'The dashed boxes on the left.',
-        }),
-        defineField({
-          name: 'connectedHeading',
-          title: 'Connected heading',
+          name: 'alt',
+          title: 'Alternative text',
           type: 'string',
         }),
-        defineField({
-          name: 'connectedMetrics',
-          title: 'Connected metrics',
-          type: 'array',
-          of: [defineArrayMember({type: 'metric'})],
-        }),
       ],
+    }),
+    defineField({
+      name: 'photoCaption',
+      title: 'Photo caption',
+      type: 'string',
+      description: 'One-sentence summary of the services you provide, shown under the photo.',
+      group: 'photo',
+      validation: (rule) => rule.max(140).warning('Keep it to one short sentence.'),
     }),
   ],
   preview: {

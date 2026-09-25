@@ -31,11 +31,8 @@ export const HOME_PAGE_QUERY = defineQuery(`
       lede,
       secondaryAction{ label, href },
       trustPoints,
-      diagram{
-        disconnectedSystems,
-        connectedHeading,
-        connectedMetrics[]{ _key, value, label }
-      }
+      photo{ alt, asset, "lqip": asset->metadata.lqip, "aspectRatio": asset->metadata.dimensions.aspectRatio },
+      photoCaption
     },
     problem{
       eyebrow,
